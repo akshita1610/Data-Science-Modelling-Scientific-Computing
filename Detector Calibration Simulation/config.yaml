@@ -1,0 +1,100 @@
+# Detector Calibration Simulation Configuration
+# This file contains default parameters for the simulation
+
+# Detector Configuration
+detector:
+  type: "pixel"  # Options: "pixel", "single_channel"
+  width: 100
+  height: 100
+  gain: 1.0
+  offset: 0.0
+  sensitivity: 1.0
+  pixel_size: 1.0
+  dark_current: 0.1
+
+# Noise Configuration
+noise:
+  enabled: true
+  type: "gaussian"  # Options: "gaussian", "poisson", "readout", "combined"
+  parameters:
+    mean: 0.0
+    std_dev: 0.1
+    readout_std: 1.0
+    flicker_strength: 0.1
+
+# Signal Source Configuration
+signal_sources:
+  enabled: ["point_source", "gaussian_source"]  # Sources to enable
+  point_source:
+    x: 50
+    y: 50
+    intensity: 1.0
+  gaussian_source:
+    center_x: 50
+    center_y: 50
+    sigma_x: 10.0
+    sigma_y: 10.0
+    intensity: 1.0
+    rotation: 0.0
+  uniform_source:
+    intensity: 0.5
+  gamma_ray_source:
+    energy: 511.0
+    intensity: 1.0
+    interaction_probability: 0.1
+
+# Calibration Configuration
+calibration:
+  enabled: true
+  methods: ["gain_offset", "noise_reduction"]
+  gain_offset:
+    reference_gain: 1.0
+    reference_offset: 0.0
+  noise_reduction:
+    method: "gaussian"  # Options: "gaussian", "median", "wavelet"
+    parameters:
+      sigma: 1.0
+      kernel_size: 3
+
+# Visualization Configuration
+visualization:
+  enabled: true
+  save_plots: true
+  plot_format: "png"  # Options: "png", "pdf", "svg"
+  dpi: 300
+  colormap: "viridis"
+  figure_size: [12, 8]
+
+# Data Management Configuration
+data:
+  output_directory: "output"
+  save_format: "npz"  # Options: "npz", "npy", "csv", "hdf5"
+  auto_save: true
+  compression: true
+
+# Evaluation Configuration
+evaluation:
+  enabled: true
+  metrics: ["mse", "rmse", "psnr", "ssim", "snr"]
+  generate_report: true
+  comparison_with_reference: false
+
+# Simulation Configuration
+simulation:
+  num_frames: 1
+  exposure_time: 1.0
+  temperature: 20.0  # Celsius
+  random_seed: null  # Set to integer for reproducible results
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Options: "DEBUG", "INFO", "WARNING", "ERROR"
+  file: "simulation.log"
+  console: true
+
+# Advanced Configuration
+advanced:
+  parallel_processing: false
+  memory_optimization: true
+  gpu_acceleration: false
+  precision: "float64"  # Options: "float32", "float64"
