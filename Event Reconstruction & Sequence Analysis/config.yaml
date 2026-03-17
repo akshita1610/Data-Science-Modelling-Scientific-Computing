@@ -1,0 +1,85 @@
+# Event Reconstruction & Sequence Analysis Pipeline Configuration
+
+# Data Ingestion Settings
+ingestion:
+  supported_formats: ['csv', 'json']
+  timestamp_column: 'timestamp'
+  event_column: 'event'
+  required_columns: ['timestamp', 'event']
+
+# Preprocessing Settings
+preprocessing:
+  timestamp_format: '%Y-%m-%d %H:%M:%S'
+  remove_duplicates: true
+  sort_by_timestamp: true
+  noise_filter:
+    enabled: true
+    min_event_interval: 0.1  # seconds
+  segmentation:
+    enabled: true
+    window_size: 100  # events per segment
+    overlap: 0.2  # 20% overlap
+
+# Feature Extraction Settings
+features:
+  time_intervals:
+    enabled: true
+    unit: 'seconds'
+  event_frequency:
+    enabled: true
+    window_size: 50
+  transition_probabilities:
+    enabled: true
+  sliding_window:
+    enabled: false
+    window_size: 20
+    step_size: 5
+
+# Event Reconstruction Settings
+reconstruction:
+  method: 'rule_based'  # 'rule_based', 'probabilistic'
+  rule_based:
+    min_confidence: 0.7
+    max_gap: 300  # seconds
+  probabilistic:
+    markov_order: 1
+    smoothing_factor: 0.01
+
+# Sequence Analysis Settings
+analysis:
+  pattern_detection:
+    enabled: true
+    min_pattern_length: 3
+    max_pattern_length: 10
+  anomaly_detection:
+    enabled: true
+    method: 'isolation_forest'  # 'isolation_forest', 'zscore'
+    contamination: 0.1
+  correlation_analysis:
+    enabled: true
+    method: 'pearson'  # 'pearson', 'spearman'
+
+# Visualization Settings
+visualization:
+  figure_size: [12, 8]
+  dpi: 300
+  style: 'seaborn'
+  color_palette: 'viridis'
+  save_plots: true
+  output_format: 'png'
+
+# Evaluation Settings
+evaluation:
+  reconstruction_accuracy:
+    enabled: true
+    tolerance_window: 5  # seconds
+  pattern_metrics:
+    enabled: true
+  anomaly_metrics:
+    enabled: true
+
+# General Settings
+general:
+  output_directory: 'output'
+  log_level: 'INFO'
+  random_seed: 42
